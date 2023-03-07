@@ -1,4 +1,4 @@
-#include "SetLab1_2_Izgarev.h"
+#include "SetLab3_Izgarev.h"
 #include <iostream>
 #include <random>
 #include <string>
@@ -14,8 +14,8 @@ using namespace std;
 	Входные параметры: нет.
 	Выходные параметры: указатель на первый элемент списка, равный NULL.
 */
-Node* CreateSetList() {
-	return nullptr;
+SetList::SetList() {
+	first_node = nullptr;
 }
 
 /*
@@ -23,8 +23,8 @@ Node* CreateSetList() {
 	Входные параметры: указатель на первый элемент списка.
 	Выходные параметры: логическое значение.
 */
-bool EmptySetList(Node* first_element) {
-	return first_element == nullptr;
+bool SetList::EmptySetList() {
+	return first_node == nullptr;
 }
 
 /*
@@ -32,9 +32,9 @@ bool EmptySetList(Node* first_element) {
 	Входные параметры: указатель на первый элемент списка, значение элемента.
 	Выходные параметры: логическое значение. Использовать F2.
 */
-bool ItemInSetList(Node* first_element, int val) {
-	if (!EmptySetList(first_element)) {
-		for (Node* item = first_element; item != nullptr; item = item->next) {
+bool SetList::ItemInSetList(int val) {
+	if (!EmptySetList()) {
+		for (Node* item = first_node; item != nullptr; item = item->next) {
 			if (item->value == val) {
 				return true;
 			}
@@ -49,15 +49,15 @@ bool ItemInSetList(Node* first_element, int val) {
 	Выходные параметры: указатель на первый элемент списка-результата.
 	Использовать F3. Ограничение: добавление осуществлять в начало списка.
 */
-Node* AddItem(Node* first_element, int val) {
-	if (ItemInSetList(first_element, val)) {
-		return first_element;
+void SetList::AddItem(int val) {
+	if (ItemInSetList(val)) {
+		return ;
 	} 
 	else {
 		Node* node = new Node();
-		node->next = first_element;
 		node->value = val;
-		return node;
+		node->next = first_node;
+		first_node = node;
 	}
 }
 
@@ -69,25 +69,24 @@ Node* AddItem(Node* first_element, int val) {
 	Использовать F4.
 	Требования: проверить возможность создания множества с заданными параметрами.
 */
-Node* CreateSetList(int len, int min, int max, char sym) {
-	Node* set = CreateSetList();
+SetList::SetList(int len, int min, int max, char sym) {
+	first_node = nullptr;
 	if (len > 0 && max > min && len < max - min) {
-		Node* pred_node = set;
+		Node* pred_node = this->first_node;
 		while (len > 0) {
-			set = AddItem(set, GenerateValueAorB(min, max, sym));
-			if (set != pred_node) {
+			AddItem(GenerateValueAorB(min, max, sym));
+			if (this->first_node != pred_node) {
 				len--;
 			}
-			pred_node = set;
+			pred_node = this->first_node;
 		}
 	}
-	return set;
 };
 
 /*
 	9.	Множество А – множество чисел, кратных 3. Множество В – множество чисел, кратных 9.
 */
-int GenerateValueAorB(int min, int max, char sym) {
+int SetList::GenerateValueAorB(int min, int max, char sym) {
 	int value = random(min, max);
 	switch (sym)
 	{
@@ -107,7 +106,7 @@ int GenerateValueAorB(int min, int max, char sym) {
 }
 
 // дополнительная функция для генерации случайных чисел
-int random(int low, int high)
+int SetList::random(int low, int high)
 {
 	std::uniform_int_distribution<> dist(low, high);
 	return dist(gen);
@@ -120,13 +119,13 @@ int random(int low, int high)
 	Выходные параметры: целочисленное значение.
 	Использовать F2.
 */
-int PowerSetList(Node* first_element) {
-	if (EmptySetList(first_element)) {
+int SetList::PowerSetList() {
+	if (EmptySetList()) {
 		return 0;
 	} 
 	else {
 		int len = 0;
-		for (Node* item = first_element; item != nullptr; item = item->next) {
+		for (Node* item = first_node; item != nullptr; item = item->next) {
 			len++;
 		}
 		return len;
@@ -140,10 +139,10 @@ int PowerSetList(Node* first_element) {
 	Использовать F2.
 	Требования: в конце строки-результата разделитель стоять не должен
 */
-string ToString(Node* first_element, char sym) {
-	if (!EmptySetList(first_element)) {
+string SetList::ToString(char sym) {
+	if (!EmptySetList()) {
 		string result = "";
-		for (Node* item = first_element; item != nullptr; item = item->next) {
+		for (Node* item = first_node; item != nullptr; item = item->next) {
 			result += to_string(item->value);
 			result += sym;
 		}
@@ -158,15 +157,12 @@ string ToString(Node* first_element, char sym) {
 	Входные параметры: указатель на первый элемент списка.
 	Выходные параметры: указатель на первый элемент списка, равный NULL.
 */
-Node* DeleteSetList(Node* first_element) {
-	if (!EmptySetList(first_element)) {
-		Node* result_ptr = DeleteSetList(first_element->next);
-		delete first_element;
-		first_element = result_ptr;
+SetList::~SetList() {
+	while (PowerSetList() > 0) {
+		Node* support_node = first_node->next;
+		delete first_node;
+		first_node = support_node;
 	}
-	else {
-		return nullptr;
-	}	
 }
 
 /*
@@ -174,14 +170,14 @@ Node* DeleteSetList(Node* first_element) {
 	Выходные параметры: логическое значение True, если А является подмножеством В.
 	Использовать F2, F6.
 */
-bool CheckSubSet(Node* sub_set, Node* set) {
-	if (EmptySetList(sub_set)) {
+bool SetList::CheckSubSet(SetList* sub_set) {
+	if (EmptySetList()) {
 		return true;
 	}
 
-	for (Node* sub_elem = sub_set; sub_elem != nullptr; sub_elem = sub_elem->next) {
+	for (Node* sub_elem = sub_set->first_node; sub_elem != nullptr; sub_elem = sub_elem->next) {
 		
-			if (!ItemInSetList(set, sub_elem->value)) {
+			if (!ItemInSetList(sub_elem->value)) {
 				return false;
 			}
 	}
@@ -194,8 +190,8 @@ bool CheckSubSet(Node* sub_set, Node* set) {
 	Входные параметры: два указателя на первые элементы списков – исходных множеств А и В.
 	Выходные параметры: логическое значение True, если А равно В. Использовать F9.
 */
-bool EqualsSets(Node* first_set, Node* second_set) {
-	return CheckSubSet(second_set, first_set) && CheckSubSet(first_set, second_set);
+bool SetList::EqualsSets(SetList* second_set) {
+	return CheckSubSet(second_set) && second_set->CheckSubSet(this);
 }
 
 /*
@@ -203,23 +199,16 @@ bool EqualsSets(Node* first_set, Node* second_set) {
 	Входные параметры: два указателя на первые элементы списков – исходных множеств.
 	Выходные параметры: указатель на первый элемент списка-результата. Использовать F2, F4.
 */
-Node* MergeSets(Node* first_set, Node* second_set) {
+SetList* SetList::MergeSets(SetList* second_set) {
 
-	Node* result_set = CreateSetList();
-	while (true) {
-
-		if (first_set != nullptr) {
-			result_set = AddItem(result_set, first_set->value);
-			first_set = first_set->next;
-		} else if (second_set != nullptr) {
-			result_set = AddItem(result_set, second_set->value);
-			second_set = second_set->next;
-		}
-		else {
-			return result_set;
-		}
-
+	SetList* result_set = new SetList();
+	for (Node* first_elem = first_node; first_elem != nullptr; first_elem = first_elem->next) {
+		result_set->AddItem(first_elem->value);
 	}
+	for (Node* first_elem = second_set->first_node; first_elem != nullptr; first_elem = first_elem->next) {
+		result_set->AddItem(first_elem->value);
+	}
+	return result_set;
 }
 
 /*
@@ -227,13 +216,13 @@ Node* MergeSets(Node* first_set, Node* second_set) {
 	Входные параметры: два указателя на первые элементы списков – исходных множеств.
 	Выходные параметры: указатель на первый элемент списка-результата. Использовать F2, F4.
 */
-Node* IntersectionSets(Node* first_set, Node* second_set) {
+SetList* SetList::IntersectionSets(SetList* second_set) {
 	
-	Node* result_set = CreateSetList();
-	for (Node* first_elem = first_set; first_elem != nullptr; first_elem = first_elem->next) {
+	SetList* result_set = new SetList();
+	for (Node* first_elem = second_set->first_node; first_elem != nullptr; first_elem = first_elem->next) {
 		
-		if (ItemInSetList(second_set, first_elem->value)) {
-			result_set = AddItem(result_set, first_elem->value);
+		if (ItemInSetList(first_elem->value)) {
+			result_set->AddItem(first_elem->value);
 		}
 		
 	}
@@ -245,12 +234,12 @@ Node* IntersectionSets(Node* first_set, Node* second_set) {
 	Входные параметры: два указателя на первые элементы списков – исходных множеств.
 	Выходные параметры: указатель на первый элемент списка-результата. Использовать F2, F4.
 */
-Node* DifferenceSets(Node* first_set, Node* second_set) {
+SetList* SetList::DifferenceSets(SetList* second_set) {
 
-	Node* result_set = CreateSetList();
-	for (Node* first_elem = first_set; first_elem != nullptr; first_elem = first_elem->next) {
-		if (!ItemInSetList(second_set, first_elem->value)) {
-			result_set = AddItem(result_set, first_elem->value);
+	SetList* result_set = new SetList();
+	for (Node* first_elem = first_node; first_elem != nullptr; first_elem = first_elem->next) {
+		if (!second_set->ItemInSetList(first_elem->value)) {
+			result_set->AddItem(first_elem->value);
 		}
 	}
 	return result_set;
@@ -261,8 +250,8 @@ Node* DifferenceSets(Node* first_set, Node* second_set) {
 	Входные параметры: два указателя на первые элементы списков – исходных множеств.
 	Выходные параметры: указатель на первый элемент списка-результата. Использовать F11, F12 и F13.
 */
-Node* SymmetricDifferenceSets(Node* first_set, Node* second_set) {
-	Node* merge_set = MergeSets(first_set, second_set);
-	Node* intersection_set = IntersectionSets(first_set, second_set);
-	return DifferenceSets(merge_set, intersection_set);
+SetList* SetList::SymmetricDifferenceSets(SetList* second_set) {
+	SetList* merge_set = MergeSets(second_set);
+	SetList* intersection_set = IntersectionSets(second_set);
+	return merge_set->DifferenceSets(intersection_set);
 }

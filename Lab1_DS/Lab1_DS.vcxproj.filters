@@ -15,15 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SetLab1_2_Izgarev.h">
+    <ClInclude Include="SetLab3_Izgarev.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SetLab1_2_Izgarev.cpp">
+    <ClCompile Include="SetLab3_Izgarev.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Lab1_2_Izgarev.cpp">
+    <ClCompile Include="OOP_Set_Izgarev.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

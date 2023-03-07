@@ -128,11 +128,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="SetLab1_2_Izgarev.h" />
+    <ClInclude Include="SetLab3_Izgarev.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Lab1_2_Izgarev.cpp" />
-    <ClCompile Include="SetLab1_2_Izgarev.cpp" />
+    <ClCompile Include="OOP_Set_Izgarev.cpp" />
+    <ClCompile Include="SetLab3_Izgarev.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
