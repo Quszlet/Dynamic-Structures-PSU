@@ -86,23 +86,12 @@ SetList::SetList(int len, int min, int max, char sym) {
 /*
 	9.	Множество А – множество чисел, кратных 3. Множество В – множество чисел, кратных 9.
 */
-int SetList::GenerateValueAorB(int min, int max, char sym) {
+int SetList::GenerateValueAorB(int min, int max, int number) {
 	int value = random(min, max);
-	switch (sym)
-	{
-	case 'A':
-		while (value % 3 != 0) {
-			value = random(min, max);
-		}
-		return value;
-	case 'B':
-		while (value % 9 != 0) {
-			value = random(min, max);
-		}
-		return value;
-	default:
-		return -1;
+	while (value % number != 0) {
+		value = random(min, max);
 	}
+	return value;
 }
 
 // дополнительная функция для генерации случайных чисел
@@ -125,7 +114,7 @@ int SetList::PowerSetList() {
 	} 
 	else {
 		int len = 0;
-		for (Node* item = first_node; item != nullptr; item = item->next) {
+		for (Node* item = this->first_node; item != nullptr; item = item->next) {
 			len++;
 		}
 		return len;
@@ -142,7 +131,7 @@ int SetList::PowerSetList() {
 string SetList::ToString(char sym) {
 	if (!EmptySetList()) {
 		string result = "";
-		for (Node* item = first_node; item != nullptr; item = item->next) {
+		for (Node* item = this->first_node; item != nullptr; item = item->next) {
 			result += to_string(item->value);
 			result += sym;
 		}
@@ -158,10 +147,10 @@ string SetList::ToString(char sym) {
 	Выходные параметры: указатель на первый элемент списка, равный NULL.
 */
 SetList::~SetList() {
-	while (PowerSetList() > 0) {
+	while (first_node != nullptr) {
 		Node* support_node = first_node->next;
-		delete first_node;
-		first_node = support_node;
+		delete this->first_node;
+		this->first_node = support_node;
 	}
 }
 
@@ -177,9 +166,9 @@ bool SetList::CheckSubSet(SetList* sub_set) {
 
 	for (Node* sub_elem = sub_set->first_node; sub_elem != nullptr; sub_elem = sub_elem->next) {
 		
-			if (!ItemInSetList(sub_elem->value)) {
-				return false;
-			}
+		if (!ItemInSetList(sub_elem->value)) {
+			return false;
+		}
 	}
 
 	return true;

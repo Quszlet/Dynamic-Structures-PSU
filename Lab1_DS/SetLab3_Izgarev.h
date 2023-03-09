@@ -10,8 +10,9 @@ class SetList {
 private:
 	Node* first_node;
 
-	// функция улучшаящая функцию F5
-	int GenerateValueAorB(int min, int max, char sym);
+	// функция для F5
+	int GenerateValueAorB(int min, int max, int number);
+
 public:
 	/*
 	F1. Создание пустого множества.
@@ -19,7 +20,6 @@ public:
 	Выходные параметры: указатель на первый элемент списка, равный NULL.
 	*/
 	SetList();
-
 
 	/*
 		F2. Пустое множество?
