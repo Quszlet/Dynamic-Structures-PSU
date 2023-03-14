@@ -51,8 +51,8 @@ bool SetList::ItemInSetList(int val) {
 */
 void SetList::AddItem(int val) {
 	if (ItemInSetList(val)) {
-		return ;
-	} 
+		return;
+	}
 	else {
 		Node* node = new Node();
 		node->value = val;
@@ -111,7 +111,7 @@ int SetList::random(int low, int high)
 int SetList::PowerSetList() {
 	if (EmptySetList()) {
 		return 0;
-	} 
+	}
 	else {
 		int len = 0;
 		for (Node* item = this->first_node; item != nullptr; item = item->next) {
@@ -136,7 +136,7 @@ string SetList::ToString(char sym) {
 			result += sym;
 		}
 		int len = result.length();
-		return result.erase(len-1, len);
+		return result.erase(len - 1, len);
 	}
 	return "";
 }
@@ -165,7 +165,7 @@ bool SetList::CheckSubSet(SetList* sub_set) {
 	}
 
 	for (Node* sub_elem = sub_set->first_node; sub_elem != nullptr; sub_elem = sub_elem->next) {
-		
+
 		if (!ItemInSetList(sub_elem->value)) {
 			return false;
 		}
@@ -174,7 +174,7 @@ bool SetList::CheckSubSet(SetList* sub_set) {
 	return true;
 }
 
-/* 
+/*
 	F10. Равенство двух множеств А-В.
 	Входные параметры: два указателя на первые элементы списков – исходных множеств А и В.
 	Выходные параметры: логическое значение True, если А равно В. Использовать F9.
@@ -206,14 +206,14 @@ SetList* SetList::MergeSets(SetList* second_set) {
 	Выходные параметры: указатель на первый элемент списка-результата. Использовать F2, F4.
 */
 SetList* SetList::IntersectionSets(SetList* second_set) {
-	
+
 	SetList* result_set = new SetList();
 	for (Node* first_elem = second_set->first_node; first_elem != nullptr; first_elem = first_elem->next) {
-		
+
 		if (ItemInSetList(first_elem->value)) {
 			result_set->AddItem(first_elem->value);
 		}
-		
+
 	}
 	return result_set;
 }
