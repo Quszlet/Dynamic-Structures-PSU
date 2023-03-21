@@ -33,12 +33,9 @@ bool SetList::EmptySetList() {
 	Выходные параметры: логическое значение. Использовать F2.
 */
 bool SetList::ItemInSetList(int val) {
-	if (!EmptySetList()) {
-		for (auto elem : this->ContainerListSet) {
-			if (elem == val) {
-				return true;
-			}
-		}
+	list<int>::const_iterator it = find(this->ContainerListSet.begin(), this->ContainerListSet.end(), val);
+	if (it != this->ContainerListSet.end()) {
+		return true;
 	}
 	return false;
 }
@@ -121,7 +118,7 @@ int SetList::PowerSetList() {
 string SetList::ToString(char sym) {
 	if (!EmptySetList()) {
 		string result = "";
-		for (auto elem : this->ContainerListSet) {
+		for (int elem : this->ContainerListSet) {
 			result += to_string(elem);
 			result += sym;
 		}
@@ -150,7 +147,7 @@ bool SetList::CheckSubSet(SetList* sub_set) {
 		return true;
 	}
 
-	for (auto elem : sub_set->ContainerListSet) {
+	for (int elem : sub_set->ContainerListSet) {
 
 		if (!ItemInSetList(elem)) {
 			return false;
@@ -177,10 +174,10 @@ bool SetList::EqualsSets(SetList* second_set) {
 SetList* SetList::MergeSets(SetList* second_set) {
 
 	SetList* result_set = new SetList();
-	for (auto elem : this->ContainerListSet) {
+	for (int elem : this->ContainerListSet) {
 		result_set->AddItem(elem);
 	}
-	for (auto elem : second_set->ContainerListSet) {
+	for (int elem : second_set->ContainerListSet) {
 		result_set->AddItem(elem);
 	}
 	return result_set;
@@ -194,7 +191,7 @@ SetList* SetList::MergeSets(SetList* second_set) {
 SetList* SetList::IntersectionSets(SetList* second_set) {
 
 	SetList* result_set = new SetList();
-	for (auto elem : second_set->ContainerListSet) {
+	for (int elem : second_set->ContainerListSet) {
 
 		if (ItemInSetList(elem)) {
 			result_set->AddItem(elem);
@@ -212,7 +209,7 @@ SetList* SetList::IntersectionSets(SetList* second_set) {
 SetList* SetList::DifferenceSets(SetList* second_set) {
 
 	SetList* result_set = new SetList();
-	for (auto elem : this->ContainerListSet) {
+	for (int elem : this->ContainerListSet) {
 		if (!second_set->ItemInSetList(elem)) {
 			result_set->AddItem(elem);
 		}
