@@ -7,8 +7,8 @@ int main() {
 
 	setlocale(LC_ALL, "ru");
 
-	SetList* set_a = new SetList(SetList::random(6, 9), 10, 99, 3);
-	SetList* set_b = new SetList(SetList::random(6, 9), 10, 99, 9);
+	Set* set_a = new Set(Set::random(6, 9), 10, 99, 3);
+	Set* set_b = new Set(Set::random(6, 9), 10, 99, 9);
 	cout << "F5. Множество А: " << set_a->ToString(' ') << endl;
 	cout << "F5. Множество В: " << set_b->ToString(' ') << endl;
 	cout << "F6. Мощность А: " << set_a->PowerSet() << endl;
